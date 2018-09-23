@@ -22,7 +22,7 @@ namespace Polish
             Console.ReadKey();
         }
 
-        static string RPN(Node startNode)
+        static string RPN(Node startNode)   //Doesn't do anything yet 
         {
 
             Node checkNode = startNode;
