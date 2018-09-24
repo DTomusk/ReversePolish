@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +8,12 @@ namespace Polish
 {
     class Program
     {
+        
+
         static void Main(string[] args)
         {
+
+            Stack<string> calcStack = new Stack<string>();
 
             Console.WriteLine("Enter expression");
 
@@ -17,22 +21,37 @@ namespace Polish
             myNode.isRoot = true; 
             Tree(myNode);
 
-            RPN(myNode);
+            traverse(myNode, calcStack);
+
+            Console.WriteLine(calcStack.Pop());
 
             Console.ReadKey();
         }
 
-        static string RPN(Node startNode)   //Doesn't do anything yet 
+        static void traverse(Node entryNode, Stack<string> myStack)
         {
-
-            Node checkNode = startNode;
-
-            while (checkNode.isLeaf == false)
+            if(!entryNode.isLeaf )
             {
-                checkNode = checkNode.Left;
-            }
+                traverse(entryNode.Left, myStack);
+                traverse(entryNode.Right, myStack);
 
-            return "0";
+                int val1 = Int32.Parse(myStack.Pop());
+                int val2 = Int32.Parse(myStack.Pop());
+
+                int result = 0;
+
+                if (entryNode.value == "+") { result = val1 + val2; }
+                if (entryNode.value == "-") { result = val1 - val2; }
+                if (entryNode.value == "*") { result = val1 * val2; }
+                if (entryNode.value == "/") { result = val1 / val2; }
+
+                myStack.Push(result.ToString());
+            }
+            else
+            {
+                myStack.Push(entryNode.value);
+            }
+            
         }
 
         static void Tree(Node parent)
